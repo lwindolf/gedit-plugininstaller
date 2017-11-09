@@ -8,6 +8,6 @@
      { "Macropy":           { "module": "macropy",         "category": "IDE",        "source": "eguaio/gedit-macropy", "description": "Allows to record and execute macros" }},
      { "Whitespace Remover": { "module": "whitescace_remover", "category": "IDE",    "source": "dinkel/gedit-whitespace-remover", "description": "Drops unnecessary whitespaces on file saving" }},
      { "Snap Open":         { "module": "snapopen",        "category": "Search",     "source": "MadsBuus/gedit-snapopen-plugin", "description": "Search through files using Regex pattern" }},
-     { "Gedi":              { "module": "gedit",           "category": "Completion", "source": "isamert/gedi", "description": "Python auto completion with jedi. Requires 'jedi' pip module" }}
+     { "Gedi":              { "module": "gedi",            "category": "Completion", "source": "isamert/gedi", "description": "Python auto completion with jedi. Requires 'jedi' pip module" }}
   ]
 }
