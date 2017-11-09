@@ -1,0 +1,6 @@
+{ "schemaVersion": 1,
+  "plugins":[
+     { "gedit-jshint": { "category": "Linter", "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint" }},
+     { "gedit-shellcheck": { "category": "Linter", "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck" }},
+  ]
+}
