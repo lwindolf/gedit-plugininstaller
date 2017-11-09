@@ -9,6 +9,7 @@
      { "Focus Auto Save":   { "module": "focus-autosave",  "category": "IDE",        "source": "kassoulet/gedit-focus-autosave", "description": "Save documents when the window looses focus." }},
      { "Favorites":         { "module": "favorites",       "category": "IDE",        "source": "Quixotix/gedit-favorites", "description": "Add a feature for favorite documents." }},
      { "Reflow":            { "module": "reflow",          "category": "IDE",        "source": "guillaumechereau/gedit-reflow-plugin", "description": "Automatically format paragraphs using gedit margin width. Similar to emacs <alt>-q command." }},
+     { "Gitedit":           { "module": "gitedit",         "category": "IDE",        "source": "dvhart/gedit-git-plugin", "description": "Simple git workflow support in a console tab. Requires GitPython." }},
      { "Gedi":              { "module": "gedi",            "category": "Completion", "source": "isamert/gedi", "description": "Python auto completion with jedi. Requires 'jedi' pip module." }},
      { "Go Completion":     { "module": "go-gedit3-plugin","category": "Completion", "source": "jcca/go-gedit3-plugin", "description": "Go auto completion." }}
   ]
