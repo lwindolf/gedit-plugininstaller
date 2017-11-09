@@ -1,7 +1,8 @@
 { "schemaVersion": 1,
   "plugins":[
      { "jshint": { "category": "Linter", "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint" }},
-     { "shellcheck": { "category": "Linter", "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck" }},
-     { "control-your-tabs": { "category": "IDE", "source": "jefferyto/gedit-control-your-tabs", "description": "switch between document tabs using Ctrl+Tab / Ctrl+Shift+Tab (most recently used order or tabbar order) and Ctrl+PageUp / Ctrl+PageDown (tabbar order)" }}
+     { "ShellCheck": { "category": "Linter", "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck" }},
+     { "Control Your Tabs": { "category": "IDE", "source": "jefferyto/gedit-control-your-tabs", "description": "switch between document tabs using Ctrl+Tab / Ctrl+Shift+Tab (most recently used order or tabbar order) and Ctrl+PageUp / Ctrl+PageDown (tabbar order)" }},
+     { "Zen Coding": { "category": "IDE", "source": "mikecrittenden/zen-coding-gedit", "description": "High-speed HTML, XML, XSL (or any other structured code format) coding and editing. The core of this plugin is a powerful abbreviation engine which allows you to expand expressions - similar to CSS selectors - into HTML code." }}
   ]
 }
