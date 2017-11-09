@@ -1,6 +1,7 @@
 { "schemaVersion": 1,
   "plugins":[
-     { "gedit-jshint": { "category": "Linter", "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint" }},
-     { "gedit-shellcheck": { "category": "Linter", "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck" }}
+     { "jshint": { "category": "Linter", "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint" }},
+     { "shellcheck": { "category": "Linter", "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck" }},
+     { "control-your-tabs": { "category": "IDE", "source": "jefferyto/gedit-control-your-tabs", "description": "switch between document tabs using Ctrl+Tab / Ctrl+Shift+Tab (most recently used order or tabbar order) and Ctrl+PageUp / Ctrl+PageDown (tabbar order)" }}
   ]
 }
