@@ -8,9 +8,9 @@ Plugins are installed using "git clone" and then installed into ~/.local/share/g
 
 Sadly the installer cannot install itself :-)
 
-   git clone https://github.com/lwindolf/gedit-plugininstaller.git
-   mkdir -p ~/.local/share/gedit/plugins/
-   cp -r gedit-plugininstaller/plugininstaller.plugin gedit-shellcheck/plugininstaller/ ~/.local/share/gedit/plugins/
+    git clone https://github.com/lwindolf/gedit-plugininstaller.git
+    mkdir -p ~/.local/share/gedit/plugins/
+    cp -r gedit-plugininstaller/plugininstaller.plugin gedit-shellcheck/plugininstaller/ ~/.local/share/gedit/plugins/
 
 ## Adding Plugins
 
