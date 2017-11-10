@@ -2,6 +2,8 @@
 
 Easy to use plugin installer for Gedit3. Supports installing plugins from a curated list. Support only plugins hosted on github.
 
+![Plugin Installer Screenshot](https://lzone.de/images/gedit-plugininstaller.png)
+
 Plugins are installed using "git clone" and then installed into ~/.local/share/gedit/plugins.
 
 ## Installation
