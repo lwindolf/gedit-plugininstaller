@@ -38,15 +38,17 @@ class PluginBrowser(Gtk.Window):
         self.grid.set_row_homogeneous(True)
         self.add(self.grid)
 
-        self._liststore = Gtk.ListStore(bool, str, str, str)
+        self._liststore = Gtk.ListStore(bool, str, str, str, str)
         self._plugin_list = self.fetch_list()
         for ref in self._plugin_list['plugins']:
             name = next(iter(ref))
             installed = False
             if os.path.isfile('%s%s.plugin' % (self.target_dir, ref[name]['module'])):
                 installed = True
+            if not 'icon' in ref[name]:
+                ref[name]['icon'] = 'libpeas-plugin'
 
-            self._liststore.append((installed, name, ref[name]['category'], ref[name]['description']))
+            self._liststore.append((installed, ref[name]['icon'], name, ref[name]['category'], ref[name]['description']))
 
         self.current_filter_category = None
         self.category_filter = self._liststore.filter_new()
@@ -55,13 +57,16 @@ class PluginBrowser(Gtk.Window):
         #creating the treeview, making it use the filter as a model, and adding the columns
         self.treeview = Gtk.TreeView.new_with_model(self.category_filter)
         self.treeview.connect("row-activated", self.on_row_activated)
-        for i, column_title in enumerate(["Inst.", "Name", "Category", "Description"]):
-            if column_title != 'Inst.':
-                renderer = Gtk.CellRendererText()
-                column = Gtk.TreeViewColumn(column_title, renderer, text=i)
-            else:
+        for i, column_title in enumerate(["Inst.", "Icon", "Name", "Category", "Description"]):
+            if column_title == 'Inst.':
                 renderer = Gtk.CellRendererToggle()
                 column = Gtk.TreeViewColumn(column_title, renderer, active=i)
+            elif column_title == 'Icon':
+                renderer = Gtk.CellRendererPixbuf()
+                column = Gtk.TreeViewColumn(column_title, renderer, icon_name=i)
+            else:
+                renderer = Gtk.CellRendererText()
+                column = Gtk.TreeViewColumn(column_title, renderer, text=i)
             self.treeview.append_column(column)
             column.set_sort_column_id(i)
 
@@ -100,7 +105,7 @@ class PluginBrowser(Gtk.Window):
         if self.current_filter_category is None or self.current_filter_category == "All":
             return True
         else:
-            return model[iter][2] == self.current_filter_category
+            return model[iter][3] == self.current_filter_category
 
     def on_catcombo_changed(self, combo):
         tree_iter = combo.get_active_iter()
@@ -115,7 +120,7 @@ class PluginBrowser(Gtk.Window):
         selection = self.treeview.get_selection()
         model, treeiter = selection.get_selected()
         if treeiter != None:
-            plugin = model[treeiter][1]
+            plugin = model[treeiter][2]
 
             # Get infos on selected plugin
             for ref in self._plugin_list['plugins']:
