@@ -1,0 +1,11 @@
+[Plugin]
+Loader=python3
+Module=plugininstaller
+IAge=3
+Name=Plugin Installer
+Description=Discover and install useful Gedit extensions more easily.
+Icon=emblem-default
+Authors=Lars Windolf <lars.windolf@gmx.de>
+Copyright=Copyright © 2017 Lars Windolf
+Website=https://github.com/lwindolf/gedit-pluginbrowser
+Version=0.1.0
