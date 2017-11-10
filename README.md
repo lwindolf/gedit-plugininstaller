@@ -1,6 +1,6 @@
 # gedit-plugininstaller
 
-Easy to use plugin installer for Gedit3. Supports installing curated plugins that are hosted in github repos.
+Easy to use plugin installer for Gedit3. Supports installing plugins from a curated list. Support only plugins hosted on github.
 
 Plugins are installed using "git clone" and then installed into ~/.local/share/gedit/plugins.
 
