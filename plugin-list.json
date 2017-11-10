@@ -15,6 +15,6 @@
      { "GTag Jump":         { "module": "gtagJump",        "category": "IDE",        "source": "utisam/gtagJump", "description": "Supports GTAGS, TAGS, CTAGS based source navigation." }},
      { "Accelerator Editor":{ "module": "acceleditor",     "category": "IDE",        "source": "nacho/gedit-accel-editor", "description": "Provides a configuration dialog for Gedit hot keys." }},
      { "Gedi":              { "module": "gedi",            "category": "Completion", "source": "isamert/gedi", "description": "Python auto completion with jedi. Requires 'jedi' pip module." }},
-     { "Go Completion":     { "module": "go-gedit3-plugin","category": "Completion", "source": "jcca/go-gedit3-plugin", "description": "Go auto completion." }}
+     { "Go Completion":     { "module": "go-gedit-plugin", "category": "Completion", "source": "jcca/go-gedit3-plugin", "description": "Go auto completion." }}
   ]
 }
