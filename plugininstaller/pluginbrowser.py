@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import urllib.request, json
-import os, shutil, subprocess
+import os, sys, shutil, subprocess
 import gi
 
 gi.require_version('Gtk', '3.0')
@@ -27,45 +27,62 @@ class PluginBrowser(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="Plugin Browser")
+
+        self.target_dir = os.path.expanduser("~/.local/share/gedit/plugins/")
+
         self.set_border_width(10)
+        self.set_default_size(600,300)
 
         self.grid = Gtk.Grid()
         self.grid.set_column_homogeneous(True)
         self.grid.set_row_homogeneous(True)
         self.add(self.grid)
 
-        self._liststore = Gtk.ListStore(str, str, str)
+        self._liststore = Gtk.ListStore(bool, str, str, str)
         self._plugin_list = self.fetch_list()
         for ref in self._plugin_list['plugins']:
             name = next(iter(ref))
-            self._liststore.append((name, ref[name]['category'], ref[name]['description']))
-        self.current_filter_category = None
+            installed = False
+            if os.path.isfile('%s%s.plugin' % (self.target_dir, ref[name]['module'])):
+                installed = True
 
+            self._liststore.append((installed, name, ref[name]['category'], ref[name]['description']))
+
+        self.current_filter_category = None
         self.category_filter = self._liststore.filter_new()
         self.category_filter.set_visible_func(self.category_filter_func)
 
         #creating the treeview, making it use the filter as a model, and adding the columns
         self.treeview = Gtk.TreeView.new_with_model(self.category_filter)
         self.treeview.connect("row-activated", self.on_row_activated)
-        for i, column_title in enumerate(["Name", "Category", "Description"]):
-            renderer = Gtk.CellRendererText()
-            column = Gtk.TreeViewColumn(column_title, renderer, text=i)
-            column.set_sort_column_id(i)
+        for i, column_title in enumerate(["Inst.", "Name", "Category", "Description"]):
+            if column_title != 'Inst.':
+                renderer = Gtk.CellRendererText()
+                column = Gtk.TreeViewColumn(column_title, renderer, text=i)
+            else:
+                renderer = Gtk.CellRendererToggle()
+                column = Gtk.TreeViewColumn(column_title, renderer, active=i)
             self.treeview.append_column(column)
+            column.set_sort_column_id(i)
 
-        self.buttons = list()
-        for category in ["Linter", "IDE", "Completion", "None"]:
-            button = Gtk.Button(category)
-            self.buttons.append(button)
-            button.connect("clicked", self.on_filter_button_clicked)
+        self._categories = Gtk.ListStore(str)
+        for category in ["All", "Linter", "IDE", "Completion"]:
+            self._categories.append([category])
+
+        self._catcombo = Gtk.ComboBox.new_with_model(self._categories)
+        renderer_text = Gtk.CellRendererText()
+        self._catcombo.pack_start(renderer_text, True)
+        self._catcombo.add_attribute(renderer_text, "text", 0)
+        self._catcombo.connect("changed", self.on_catcombo_changed)
+        self._catlabel = Gtk.Label("Filter by category")
 
         #setting up the layout, putting the treeview in a scrollwindow, and the buttons in a row
         self.scrollable_treelist = Gtk.ScrolledWindow()
         self.scrollable_treelist.set_vexpand(True)
         self.grid.attach(self.scrollable_treelist, 0, 0, 8, 10)
-        self.grid.attach_next_to(self.buttons[0], self.scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1)
-        for i, button in enumerate(self.buttons[1:]):
-            self.grid.attach_next_to(button, self.buttons[i], Gtk.PositionType.RIGHT, 1, 1)
+        self.grid.attach_next_to(self._catlabel, self.scrollable_treelist, Gtk.PositionType.TOP, 1, 1)
+        self.grid.attach_next_to(self._catcombo, self._catlabel, Gtk.PositionType.RIGHT, 2, 1)
+
         self.scrollable_treelist.add(self.treeview)
 
         self.show_all()
@@ -78,67 +95,87 @@ class PluginBrowser(Gtk.Window):
         resp = urllib.request.urlopen(req).read()
         return json.loads(resp.decode('utf-8'))
 
-    def install_plugin(self):
-        """Fetches github repo for a plugin and tries to install the plugin"""
-
-
     def category_filter_func(self, model, iter, data):
         """Tests if the category in the row is the one in the filter"""
-        if self.current_filter_category is None or self.current_filter_category == "None":
+        if self.current_filter_category is None or self.current_filter_category == "All":
             return True
         else:
-            return model[iter][1] == self.current_filter_category
+            return model[iter][2] == self.current_filter_category
 
-    def on_filter_button_clicked(self, widget):
-        self.current_filter_category = widget.get_label()
+    def on_catcombo_changed(self, combo):
+        tree_iter = combo.get_active_iter()
+        if tree_iter != None:
+            model = combo.get_model()
+            self.current_filter_category = model[tree_iter][0]
+        else:
+            self.current_filter_category = None
         self.category_filter.refilter()
 
     def on_row_activated(self, path, column, user_data):
         selection = self.treeview.get_selection()
         model, treeiter = selection.get_selected()
         if treeiter != None:
-            plugin = model[treeiter][0]
-            plugin_info = None
+            plugin = model[treeiter][1]
+
             # Get infos on selected plugin
             for ref in self._plugin_list['plugins']:
                 if plugin == next(iter(ref)):
-                    plugin_info = ref[plugin]
+                    model[treeiter][0] = self.install_plugin(ref[plugin])
+                    return
 
             if plugin_info == None:
                 print("Failed to get plugin infos for git fetch!")
                 return
 
-            DIR_NAME = "/tmp/gedit-pluginbrowser-%s" % plugin_info['module']
-            if os.path.isdir(DIR_NAME):
-                shutil.rmtree(DIR_NAME)
-            os.mkdir(DIR_NAME)
-            os.chdir(DIR_NAME)
+    def show_message(self, message, error = False):
+        dialog = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, (Gtk.MessageType.ERROR if error else Gtk.MessageType.INFO), Gtk.ButtonsType.CLOSE, message)
+        Gtk.Dialog.run(dialog)
+        Gtk.Widget.destroy(dialog)
+ 
+    def install_plugin(self, plugin_info):
+        """Fetches github repo for a plugin and tries to install the plugin"""
+        DIR_NAME = "/tmp/gedit-pluginbrowser-%s" % plugin_info['module']
+        if os.path.isdir(DIR_NAME):
+            shutil.rmtree(DIR_NAME)
+        os.mkdir(DIR_NAME)
+        os.chdir(DIR_NAME)
 
-            # Git checkout
-            print("git clone https://github.com/%s" % plugin_info['source'])
-            p = subprocess.Popen(["git", "clone", "https://github.com/%s" % plugin_info['source'], "."])
-            p.wait()
-            # FIXME: error checking
+        # Git checkout
+        p = subprocess.Popen(["git", "clone", "https://github.com/%s" % plugin_info['source'], "."])
+        p.wait()
+        # FIXME: error checking
 
-            target_dir = os.path.expanduser("~/.local/share/gedit/plugins/")
-
-            # Now copy the plugin source, there are 2 variants:
-            # - either there is a subdir named after the module   <module>/
-            # - or there is a module file with language extension <module>.py
+        # Now copy the plugin source, there are 2 variants:
+        # - either there is a subdir named after the module   <module>/
+        # - or there is a module file with language extension <module>.py
+        try:
             src_dir = '%s/%s' % (DIR_NAME, plugin_info['module'])
-            if os.path.isfile(src_dir):
-                shutil.copytree(src_dir, target_dir)
+            if os.path.isdir(src_dir):
+                print("Copying %s to %s" % (src_dir, self.target_dir))
+                shutil.copytree(src_dir, "%s/%s" % (self.target_dir, plugin_info['module']))
+        except:
+            self.show_message("Failed to copy plugin directory (%s)!" % sys.exc_info()[0], True)
+            return False
 
-            # FIXME: support other plugin languages besides Python
+        # FIXME: support other plugin languages besides Python
+        try:
             src_file = '%s/%s.py' % (DIR_NAME, plugin_info['module'])
             if os.path.isfile(src_file):
-                shutil.copy(src_file, target_dir)
-                # FIXME: error checking
+                shutil.copy(src_file, self.target_dir)
+        except:
+            self.show_message("Failed to copy plugin .py file (%s)!" % sys.exc_info()[0], True)
+            return False
 
-            # Copy .plugin file
-            shutil.copy('%s/%s.plugin' % (DIR_NAME, plugin_info['module']), target_dir)
-            # FIXME: error checking
+        # Copy .plugin file
+        try:
+            shutil.copy('%s/%s.plugin' % (DIR_NAME, plugin_info['module']), self.target_dir)
+        except:
+            self.show_message("Failed to copy .plugin file (%s)!" % sys.exc_info()[0], True)
+            return False
 
-            # Cleanup
-            shutil.rmtree(DIR_NAME)
+        # Cleanup
+        shutil.rmtree(DIR_NAME)
+
+        self.show_message("Plugin '%s' is now installed. Ensure to restart Gedit and enable it in the plugin preferences!" % plugin_info['module'])
+        return True
 
