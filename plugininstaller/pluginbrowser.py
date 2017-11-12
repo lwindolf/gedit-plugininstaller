@@ -41,14 +41,17 @@ class PluginBrowser(Gtk.Window):
         self._liststore = Gtk.ListStore(bool, str, str, str, str)
         self._plugin_list = self.fetch_list()
         for ref in self._plugin_list['plugins']:
-            name = next(iter(ref))
-            installed = False
-            if os.path.isfile('%s%s.plugin' % (self.target_dir, ref[name]['module'])):
-                installed = True
-            if not 'icon' in ref[name]:
-                ref[name]['icon'] = 'libpeas-plugin'
+            try:
+                name = next(iter(ref))
+                installed = False
+                if os.path.isfile('%s%s.plugin' % (self.target_dir, ref[name]['module'])):
+                   installed = True
+                if not 'icon' in ref[name]:
+                   ref[name]['icon'] = 'libpeas-plugin'
 
-            self._liststore.append((installed, ref[name]['icon'], name, ref[name]['category'], ref[name]['description']))
+                self._liststore.append((installed, ref[name]['icon'], name, ref[name]['category'], ref[name]['description']))
+            except:
+                print("Bad fields for plugin entry %s" % name)
 
         self.current_filter_category = None
         self.category_filter = self._liststore.filter_new()
