@@ -1,12 +1,15 @@
 { "schemaVersion": 1,
   "plugins":[
-     { "jshint":            { "module": "jshint",          "category": "Linter",     "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint" }},
-     { "ShellCheck":        { "module": "shellsheck",      "category": "Linter",     "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck" }},
-     { "Coala":             { "module": "coala",           "category": "Linter",     "source": "coala/coala-gedit", "description": "Static code analysis using Coala. Requires 'pip3 install coala-bears'" }},
-     { "Control Your Tabs": { "module": "controlyourtabs", "category": "IDE",        "source": "jefferyto/gedit-control-your-tabs", "description": "switch between document tabs using Ctrl+Tab / Ctrl+Shift+Tab (most recently used order or tabbar order) and Ctrl+PageUp / Ctrl+PageDown (tabbar order)" }},
-     { "Zen Coding":        { "module": "zencoding",       "category": "IDE",        "source": "mikecrittenden/zen-coding-gedit", "description": "High-speed HTML, XML, XSL (or any other structured code format) coding and editing. The core of this plugin is a powerful abbreviation engine which allows you to expand expressions - similar to CSS selectors - into HTML code." }},
-     { "Macropy":           { "module": "macropy",         "category": "IDE",        "source": "eguaio/gedit-macropy", "description": "Allows you to record and execute macros." }},
-     { "Whitespace Remover": { "module": "whitescace_remover", "category": "IDE",    "source": "dinkel/gedit-whitespace-remover", "description": "Drops unnecessary whitespaces on file saving." }},
+     { "jshint":               { "module": "jshint",          "category": "Linter",     "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint", "icon": "emblem-default" }},
+     { "ShellCheck":           { "module": "shellcheck",      "category": "Linter",     "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck", "icon": "emblem-default" }},
+     { "Coala":                { "module": "coala",           "category": "Linter",     "source": "coala/coala-gedit", "description": "Static code analysis using Coala. Requires 'pip3 install coala-bears'" }},
+     { "Python Checker":       { "module": "checkpython",     "category": "Linter",     "source": "rdunklau/Gedit-checkpython", "description": "PEP8 Python checker. Requires 'pip3 install pyflakes pycodestyle'" }},
+     { "PHPLint":              { "module": "phplint",         "category": "Linter",     "source": "lwindolf/gedit-phplint", "description": "Check PHP syntax using 'php -l'", "icon": "emblem-default" }},
+     { "Indentation Settings": { "module": "indentation_settings", "category": "IDE",   "source": "sergejx/gedit-indentation-settings", "description": "Configure default indentations per language" }},
+     { "Control Your Tabs":    { "module": "controlyourtabs", "category": "IDE",        "source": "jefferyto/gedit-control-your-tabs", "description": "switch between document tabs using Ctrl+Tab / Ctrl+Shift+Tab (most recently used order or tabbar order) and Ctrl+PageUp / Ctrl+PageDown (tabbar order)" }},
+     { "Zen Coding":           { "module": "zencoding",       "category": "IDE",        "source": "mikecrittenden/zen-coding-gedit", "description": "High-speed HTML, XML, XSL (or any other structured code format) coding and editing. The core of this plugin is a powerful abbreviation engine which allows you to expand expressions - similar to CSS selectors - into HTML code." }},
+     { "Macropy":              { "module": "macropy",         "category": "IDE",        "source": "eguaio/gedit-macropy", "description": "Allows you to record and execute macros." }},
+     { "Whitespace Remover":   { "module": "whitespace_remover", "category": "IDE",    "source": "dinkel/gedit-whitespace-remover", "description": "Drops unnecessary whitespaces on file saving.", "icon": "edit-clear" }},
      { "Focus Auto Save":   { "module": "focus-autosave",  "category": "IDE",        "source": "kassoulet/gedit-focus-autosave", "description": "Save documents when the window looses focus." }},
      { "Favorites":         { "module": "favorites",       "category": "IDE",        "source": "Quixotix/gedit-favorites", "description": "Add a feature for favorite documents." }},
      { "Reflow":            { "module": "reflow",          "category": "IDE",        "source": "guillaumechereau/gedit-reflow-plugin", "description": "Automatically format paragraphs using gedit margin width. Similar to emacs <alt>-q command." }},
@@ -14,7 +17,10 @@
      { "Session Saver":     { "module": "sessionsaver",    "category": "IDE",        "source": "bndn/gedit-sessionsaver", "description": "Restores previous session." }},
      { "GTag Jump":         { "module": "gtagJump",        "category": "IDE",        "source": "utisam/gtagJump", "description": "Supports GTAGS, TAGS, CTAGS based source navigation." }},
      { "Accelerator Editor":{ "module": "acceleditor",     "category": "IDE",        "source": "nacho/gedit-accel-editor", "description": "Provides a configuration dialog for Gedit hot keys." }},
+     { "Text Wrap Toggle":  { "module": "toggletextwrapping", "category": "IDE",     "source": "jefferyto/gedit-toggle-text-wrapping", "description": "Adds a menubar button to toggle text wrapping mode.", "icon": "gtk-ok" }},
+     { "Better Python Console": { "module": "betterpythonconsole", "category": "IDE","source": "JacekPliszka/gedit-betterpythonconsole", "description": "Run your Python code using F5 in the Python console", "icon": "gnome-mime-text-x-python" }},
+     { "File Search":       { "module": "file-search",     "category": "Search",     "source": "oliver/gedit-file-search", "description": "Search in multiple files. Results shown in the bottom panel.", "icon": "search" }},
      { "Gedi":              { "module": "gedi",            "category": "Completion", "source": "isamert/gedi", "description": "Python auto completion with jedi. Requires 'jedi' pip module." }},
-     { "Go Completion":     { "module": "go-gedit3-plugin","category": "Completion", "source": "jcca/go-gedit3-plugin", "description": "Go auto completion." }}
+     { "Go Completion":     { "module": "go-gedit-plugin", "category": "Completion", "source": "jcca/go-gedit3-plugin", "description": "Go auto completion.", "icon": "pair_chair_completion" }}
   ]
 }
