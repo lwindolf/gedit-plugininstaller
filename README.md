@@ -16,7 +16,7 @@ Sadly the installer cannot install itself :-)
 
 ## Adding Plugins
 
-If you want to add another plugin please add to to plugin-list.json and make a pull request.
+If you want to add another plugin please add it to plugin-list.json and make a pull request.
 
 ## Dependencies
 
