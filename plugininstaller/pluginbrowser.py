@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# vim: set ts=4 et sw=4 sts=4: 
+
 # Plugin browser plugin for Gedit
 # Copyright (C) 2017 Lars Windolf <lars.windolf@gmx.de>
 #
@@ -16,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import urllib.request, json
-import os, sys, shutil, subprocess
+import os, sys, glob, shutil, subprocess
 import gi
 
 gi.require_version('Gtk', '3.0')
@@ -28,7 +30,9 @@ class PluginBrowser(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="Plugin Browser")
 
+        # FIXME: using safe XDG paths would be better
         self.target_dir = os.path.expanduser("~/.local/share/gedit/plugins/")
+        self.schema_dir = os.path.expanduser("~/.local/share/glib-2.0/schemas/")
 
         self.set_border_width(10)
         self.set_default_size(600,300)
@@ -179,6 +183,28 @@ class PluginBrowser(Gtk.Window):
             shutil.copy('%s/%s.plugin' % (DIR_NAME, plugin_info['module']), self.target_dir)
         except:
             self.show_message("Failed to copy .plugin file (%s)!" % sys.exc_info()[0], True)
+            return False
+
+        # Optional: find and install schemata
+        try:
+            schema_found = False
+
+            # We allow for schema either at top level or in first subdir
+            for schema_file in glob.iglob('%s/**/*.gschema.xml' % (DIR_NAME), recursive = True):
+                schema_found = True
+                if not os.path.isdir(self.schema_dir):
+                    print('Creating schema directory %s' % self.schema_dir)
+                    os.makedirs(self.schema_dir)
+                print('Installing schema %s' % schema_file)
+                shutil.copy(schema_file,self.schema_dir)
+
+            if schema_found:
+                print('Compiling schemas...')
+                p = subprocess.Popen(["glib-compile-schemas", self.schema_dir])
+                p.wait()
+	        	# FIXME: error checking
+        except:
+            self.show_message("Failed to install schema files (%s)!" % sys.exc_info()[0], True)
             return False
 
         # Cleanup
