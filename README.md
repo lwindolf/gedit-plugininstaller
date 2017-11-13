@@ -12,7 +12,7 @@ Sadly the installer cannot install itself :-)
 
     git clone https://github.com/lwindolf/gedit-plugininstaller.git
     mkdir -p ~/.local/share/gedit/plugins/
-    cp -r gedit-plugininstaller/plugininstaller.plugin gedit-shellcheck/plugininstaller/ ~/.local/share/gedit/plugins/
+    cp -r gedit-plugininstaller/plugininstaller.plugin gedit-plugininstaller/plugininstaller/ ~/.local/share/gedit/plugins/
 
 ## Adding Plugins
 
