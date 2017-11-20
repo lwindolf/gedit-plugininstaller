@@ -11,8 +11,9 @@
                   "deps"        : {
                       "pkgmgr"   : {
                           "name": "pip3",
-                          "check": "pip3 -V",
-                          "checkPkg": "pip3 show {}"
+                          "check":      ["pip3", "-V"],
+                          "checkPkg":   ["pip3", "show"],
+                          "installPkg": ["pip3", "install"],
                       },
                       "packages" : [ "pyflakes", "pycodestyle" ]
                   }
@@ -34,8 +35,9 @@
                       "deps"        : {
                       "pkgmgr"   : {
                           "name": "pip3",
-                          "check": "pip3 -V",
-                          "checkPkg": "pip3 show {}"
+                          "check":      ["pip3", "-V"],
+                          "checkPkg":   ["pip3", "show"],
+                          "installPkg": ["pip3", "install"],
                       },
                       "packages" : [ "gitpython" ]
                   }
