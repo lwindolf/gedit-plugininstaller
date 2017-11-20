@@ -139,10 +139,11 @@ class PluginBrowser(Gtk.Window):
                 print("Failed to get plugin infos for git fetch!")
                 return
 
-    def show_message(self, message, error = False):
-        dialog = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, (Gtk.MessageType.ERROR if error else Gtk.MessageType.INFO), Gtk.ButtonsType.CLOSE, message)
-        Gtk.Dialog.run(dialog)
+    def show_message(self, message, error = False, buttons = Gtk.ButtonsType.CLOSE):
+        dialog = Gtk.MessageDialog(self, Gtk.DialogFlags.DESTROY_WITH_PARENT, (Gtk.MessageType.ERROR if error else Gtk.MessageType.INFO), buttons, message)
+        response = Gtk.Dialog.run(dialog)
         Gtk.Widget.destroy(dialog)
+        return response
  
     def install_plugin(self, plugin_info):
         """Fetches github repo for a plugin and tries to install the plugin"""
@@ -151,6 +152,41 @@ class PluginBrowser(Gtk.Window):
             shutil.rmtree(DIR_NAME)
         os.mkdir(DIR_NAME)
         os.chdir(DIR_NAME)
+
+        # Check and install dependencies
+        if 'deps' in plugin_info:
+            # First check if package manager is available
+            try:
+                # Run package manager check command
+                p = subprocess.Popen(plugin_info['deps']['pkgmgr']['check'])
+                p.wait()
+                if p.returncode != 0:
+                    self.show_message("Missing package manager '%s'. Cannot check nor install dependencies! ('%s' gave exit code != 0)" % (plugin_info['deps']['pkgmgr']['name'], plugin_info['deps']['pkgmgr']['check'], sys.exc_info()[0]), True)
+                    return False
+
+                # For each package run package check command
+                for pkg in plugin_info['deps']['packages']:
+                    print("Checking for %s..."%pkg)
+                    cmd = plugin_info['deps']['pkgmgr']['checkPkg'][:]
+                    cmd.append(pkg)
+                    print("Run %s"%' '.join(cmd))
+                    p = subprocess.Popen(cmd)
+                    p.wait()
+                    if p.returncode != 0:
+                        cmd = plugin_info['deps']['pkgmgr']['installPkg'][:]
+                        cmd.append(pkg)
+                        response = self.show_message("Missing package '%s'. Do you want to install it? (Will run '%s')" % (plugin_info['deps']['pkgmgr']['name'], ' '.join(cmd)), False, Gtk.ButtonsType.OK_CANCEL)
+                        if Gtk.ResponseType.OK != response:
+                            return False
+
+                        p = subprocess.Popen(cmd)
+                        p.wait()
+                        if p.returncode != 0:
+                            self.show_message("Package installation failed (%s)! Check console output for further problem details!" % sys.exc_info()[0], True)
+                            return False
+            except:
+                self.show_message("Failed to check plugin dependencies (%s)!" % sys.exc_info()[0], True)
+                return False
 
         # Git checkout
         p = subprocess.Popen(["git", "clone", "https://github.com/%s" % plugin_info['source'], "."])
