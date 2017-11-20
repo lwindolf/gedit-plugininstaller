@@ -33,14 +33,14 @@
                       "source"      : "dvhart/gedit-git-plugin",
                       "description" : "Simple git workflow support in a console tab.",
                       "deps"        : {
-                      "pkgmgr"   : {
-                          "name": "pip3",
-                          "check":      ["pip3", "-V"],
-                          "checkPkg":   ["pip3", "show"],
-                          "installPkg": ["pip3", "install"]
-                      },
-                      "packages" : [ "gitpython" ]
-                  }
+                          "pkgmgr"   : {
+                              "name": "pip3",
+                              "check":      ["pip3", "-V"],
+                              "checkPkg":   ["pip3", "show"],
+                              "installPkg": ["pip3", "install"]
+                          },
+                          "packages" : [ "gitpython" ]
+                     }
      }},
      { "Session Saver":     { "module": "sessionsaver",    "category": "IDE",        "source": "bndn/gedit-sessionsaver", "description": "Restores previous session." }},
      { "GTag Jump":         { "module": "gtagJump",        "category": "IDE",        "source": "utisam/gtagJump", "description": "Supports GTAGS, TAGS, CTAGS based source navigation." }},
