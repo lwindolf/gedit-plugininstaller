@@ -37,11 +37,8 @@ class AppActivatable(GObject.Object, Gedit.AppActivatable):
         self._menu_ext.append_menu_item(item)
 
     def do_deactivate(self):
-        self.app.set_accels_for_action("win.browse-plugins", [])
-        self._menu_ext = None
-
-    def do_deactivate(self):
         self.app.remove_action("plugin-browser")
+        self._menu_ext = None
         self._action = None
         self._browser = None
 
