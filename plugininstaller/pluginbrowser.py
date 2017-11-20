@@ -23,12 +23,15 @@ import gi
 
 gi.require_version('Gtk', '3.0')
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gio
 
 class PluginBrowser(Gtk.Window):
 
+    SCHEMA_ID = "org.gnome.gedit.plugins"
+
     def __init__(self):
         Gtk.Window.__init__(self, title="Plugin Browser")
+
 
         # FIXME: using safe XDG paths would be better
         self.target_dir = os.path.expanduser("~/.local/share/gedit/plugins/")
@@ -241,11 +244,21 @@ class PluginBrowser(Gtk.Window):
 	        	# FIXME: error checking
         except:
             self.show_message("Failed to install schema files (%s)!" % sys.exc_info()[0], True)
-            return False
+            return False 
+
+        # Enable plugin (for next restart)
+        try:
+            settings = Gio.Settings.new(self.SCHEMA_ID)
+            current_plugins = settings.get_strv('active-plugins')
+            current_plugins.append(plugin_info['module'])
+            settings.set_strv('active-plugins', current_plugins)
+        except:
+            self.show_message("Failed to enable plugin (%s)!" % sys.exc_info()[0], True)
+            return False 
 
         # Cleanup
         shutil.rmtree(DIR_NAME)
 
-        self.show_message("Plugin '%s' is now installed. Ensure to restart Gedit and enable it in the plugin preferences!" % plugin_info['module'])
+        self.show_message("Plugin '%s' is now installed and enabled for next restart. Ensure to restart Gedit!" % plugin_info['module'])
         return True
 
