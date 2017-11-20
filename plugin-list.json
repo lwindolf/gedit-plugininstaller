@@ -3,7 +3,21 @@
      { "jshint":               { "module": "jshint",          "category": "Linter",     "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint", "icon": "emblem-default" }},
      { "ShellCheck":           { "module": "shellcheck",      "category": "Linter",     "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck", "icon": "emblem-default" }},
      { "Coala":                { "module": "coala",           "category": "Linter",     "source": "coala/coala-gedit", "description": "Static code analysis using Coala. Requires 'pip3 install coala-bears'" }},
-     { "Python Checker":       { "module": "checkpython",     "category": "Linter",     "source": "rdunklau/Gedit-checkpython", "description": "PEP8 Python checker. Requires 'pip3 install pyflakes pycodestyle'" }},
+     { "Python Checker":       
+                { "module"      : "checkpython",
+                  "category"    : "Linter",
+                  "source"      : "rdunklau/Gedit-checkpython",
+                  "description" : "PEP8 Python checker",
+                  "deps"        : {
+                      "pkgmgr"   : {
+                          "name": "pip3",
+                          "check":      ["pip3", "-V"],
+                          "checkPkg":   ["pip3", "show"],
+                          "installPkg": ["pip3", "install"]
+                      },
+                      "packages" : [ "pyflakes", "pycodestyle" ]
+                  }
+     }},
      { "PHPLint":              { "module": "phplint",         "category": "Linter",     "source": "lwindolf/gedit-phplint", "description": "Check PHP syntax using 'php -l'", "icon": "emblem-default" }},
      { "Indentation Settings": { "module": "indentation_settings", "category": "IDE",   "source": "sergejx/gedit-indentation-settings", "description": "Configure default indentations per language" }},
      { "Control Your Tabs":    { "module": "controlyourtabs", "category": "IDE",        "source": "jefferyto/gedit-control-your-tabs", "description": "switch between document tabs using Ctrl+Tab / Ctrl+Shift+Tab (most recently used order or tabbar order) and Ctrl+PageUp / Ctrl+PageDown (tabbar order)" }},
@@ -13,7 +27,21 @@
      { "Focus Auto Save":   { "module": "focus-autosave",  "category": "IDE",        "source": "kassoulet/gedit-focus-autosave", "description": "Save documents when the window looses focus." }},
      { "Favorites":         { "module": "favorites",       "category": "IDE",        "source": "Quixotix/gedit-favorites", "description": "Add a feature for favorite documents." }},
      { "Reflow":            { "module": "reflow",          "category": "IDE",        "source": "guillaumechereau/gedit-reflow-plugin", "description": "Automatically format paragraphs using gedit margin width. Similar to emacs <alt>-q command." }},
-     { "Gitedit":           { "module": "gitedit",         "category": "IDE",        "source": "dvhart/gedit-git-plugin", "description": "Simple git workflow support in a console tab. Requires GitPython." }},
+     { "Gitedit":           
+                    { "module"      : "gitedit",
+                      "category"    : "IDE",
+                      "source"      : "dvhart/gedit-git-plugin",
+                      "description" : "Simple git workflow support in a console tab.",
+                      "deps"        : {
+                          "pkgmgr"   : {
+                              "name": "pip3",
+                              "check":      ["pip3", "-V"],
+                              "checkPkg":   ["pip3", "show"],
+                              "installPkg": ["pip3", "install"]
+                          },
+                          "packages" : [ "gitpython" ]
+                     }
+     }},
      { "Session Saver":     { "module": "sessionsaver",    "category": "IDE",        "source": "bndn/gedit-sessionsaver", "description": "Restores previous session." }},
      { "GTag Jump":         { "module": "gtagJump",        "category": "IDE",        "source": "utisam/gtagJump", "description": "Supports GTAGS, TAGS, CTAGS based source navigation." }},
      { "Accelerator Editor":{ "module": "acceleditor",     "category": "IDE",        "source": "nacho/gedit-accel-editor", "description": "Provides a configuration dialog for Gedit hot keys." }},
