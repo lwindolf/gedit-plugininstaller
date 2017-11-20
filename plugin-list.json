@@ -7,7 +7,7 @@
                 { "module"      : "checkpython",
                   "category"    : "Linter",
                   "source"      : "rdunklau/Gedit-checkpython",
-                  "description" : "PEP8 Python checker" 
+                  "description" : "PEP8 Python checker",
                   "deps"        : {
                       "pkgmgr"   : {
                           "name": "pip3",
