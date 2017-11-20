@@ -1,6 +1,6 @@
 # gedit-plugininstaller
 
-Easy to use plugin installer for Gedit3. Supports installing plugins from a curated list of Gedit 3.14+ plugins. For now support only plugins hosted on github.
+Easy to use plugin installer for GNOME Gedit 3.14+. Supports installing plugins and their dependencies from a curated list of Gedit 3.14+ plugins. For now support only plugins hosted on github.
 
 ![Plugin Installer Screenshot](https://lzone.de/images/gedit-plugininstaller.png)
 
@@ -20,5 +20,6 @@ If you want to add another plugin please add it to plugin-list.json and make a p
 
 ## Dependencies
 
-* Gedit 3
+* Gedit 3.14+
 * Requires git installed
+* Some plugins require pip3 to install further Python modules
