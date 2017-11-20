@@ -20,5 +20,6 @@ If you want to add another plugin please add it to plugin-list.json and make a p
 
 ## Dependencies
 
-* Gedit 3
+* Gedit 3.14+
 * Requires git installed
+* Some plugins require pip3 to install further Python modules
