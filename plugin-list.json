@@ -60,6 +60,7 @@
      { "Accelerator Editor":{ "module": "acceleditor",     "category": "IDE",        "source": "nacho/gedit-accel-editor", "description": "Provides a configuration dialog for Gedit hot keys." }},
      { "Text Wrap Toggle":  { "module": "toggletextwrapping", "category": "IDE",     "source": "jefferyto/gedit-toggle-text-wrapping", "description": "Adds a menubar button to toggle text wrapping mode.", "icon": "gtk-ok" }},
      { "Better Python Console": { "module": "betterpythonconsole", "category": "IDE","source": "JacekPliszka/gedit-betterpythonconsole", "description": "Run your Python code using F5 in the Python console", "icon": "gnome-mime-text-x-python" }},
+     { "SnapOpen":          { "module": "snapopen",        "category": "Search",     "source": "rubencaro/gedit-snapopen-plugin", "description": "Allows opening files by regex" }}, 
      { "File Search":       { "module": "file-search",     "category": "Search",     "source": "oliver/gedit-file-search", "description": "Search in multiple files. Results shown in the bottom panel.", "icon": "search" }},
      { "Gedi":
                      { "module"      : "gedi",
