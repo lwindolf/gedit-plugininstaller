@@ -161,24 +161,30 @@ class PluginBrowser(Gtk.Window):
             # First check if package manager is available
             try:
                 # Run package manager check command
-                p = subprocess.Popen(plugin_info['deps']['pkgmgr']['check'])
+                p = subprocess.Popen(' '.join(plugin_info['deps']['pkgmgr']['check']), shell=True)
                 p.wait()
-                if p.returncode != 0:
-                    self.show_message("Missing package manager '%s'. Cannot check nor install dependencies! ('%s' gave exit code != 0)" % (plugin_info['deps']['pkgmgr']['name'], plugin_info['deps']['pkgmgr']['check'], sys.exc_info()[0]), True)
-                    return False
+                pkg_mgr_missing = p.returncode
+            except:
+                pkg_mgr_missing = 0
+
+            if pkg_mgr_missing != 0:
+                self.show_message("Missing package manager '%s'. Cannot check nor install necessary dependencies!" % plugin_info['deps']['pkgmgr']['name'], True)
+                return False
+
+            try:
 
                 # For each package run package check command
                 for pkg in plugin_info['deps']['packages']:
                     print("Checking for %s..."%pkg)
                     cmd = plugin_info['deps']['pkgmgr']['checkPkg'][:]
                     cmd.append(pkg)
-                    print("Run %s"%' '.join(cmd))
+                    print("   -> %s"%' '.join(cmd))
                     p = subprocess.Popen(cmd)
                     p.wait()
                     if p.returncode != 0:
                         cmd = plugin_info['deps']['pkgmgr']['installPkg'][:]
                         cmd.append(pkg)
-                        response = self.show_message("Missing package '%s'. Do you want to install it? (Will run '%s')" % (plugin_info['deps']['pkgmgr']['name'], ' '.join(cmd)), False, Gtk.ButtonsType.OK_CANCEL)
+                        response = self.show_message("Missing package '%s'. Do you want to install it? (Will run '%s')" % (pkg, ' '.join(cmd)), False, Gtk.ButtonsType.OK_CANCEL)
                         if Gtk.ResponseType.OK != response:
                             return False
 
