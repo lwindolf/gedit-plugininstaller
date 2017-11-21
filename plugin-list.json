@@ -3,10 +3,10 @@
      { "jshint":               { "module": "jshint",          "category": "Linter",     "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint", "icon": "emblem-default" }},
      { "ShellCheck":           { "module": "shellcheck",      "category": "Linter",     "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck", "icon": "emblem-default" }},
      { "Coala": 
-                { "module": "coala",
-                  "category": "Linter",
-                  "source": "coala/coala-gedit",
-                  "description": "Static code analysis using Coala.
+                { "module"      : "coala",
+                  "category"    : "Linter",
+                  "source"      : "coala/coala-gedit",
+                  "description" : "Static code analysis using the Coala framework.",
                   "deps"        : {
                       "pkgmgr"   : {
                           "name": "pip3",
