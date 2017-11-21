@@ -14,6 +14,8 @@ Sadly the installer cannot install itself :-)
     mkdir -p ~/.local/share/gedit/plugins/
     cp -r gedit-plugininstaller/plugininstaller.plugin gedit-plugininstaller/plugininstaller/ ~/.local/share/gedit/plugins/
 
+Finally start Gedit and enable the plugin installer under Preferences / Plugins.
+
 ## Adding Plugins
 
 If you want to add another plugin please add it to plugin-list.json and make a pull request.
