@@ -77,6 +77,12 @@
                           "packages" : [ "jedi" ]
                       }
      }},
-     { "Go Completion":     { "module": "go-gedit-plugin", "category": "Completion", "source": "jcca/go-gedit3-plugin", "description": "Go auto completion.", "icon": "pair_chair_completion" }}
+     { "Go Completion":     { "module": "go-gedit-plugin", "category": "Completion", "source": "jcca/go-gedit3-plugin", "description": "Go auto completion.", "icon": "pair_chair_completion" }},
+     { "Rust Completion":
+                     { "module"      : "gracer",
+                       "category"    : "Completion",
+                       "source"      : "isamert/gracer",
+                       "description" : "Python auto completion with racer. Requires 'cargo install racer'."
+     }}
   ]
 }
