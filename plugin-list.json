@@ -2,7 +2,21 @@
   "plugins":[
      { "jshint":               { "module": "jshint",          "category": "Linter",     "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint", "icon": "emblem-default" }},
      { "ShellCheck":           { "module": "shellcheck",      "category": "Linter",     "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck", "icon": "emblem-default" }},
-     { "Coala":                { "module": "coala",           "category": "Linter",     "source": "coala/coala-gedit", "description": "Static code analysis using Coala. Requires 'pip3 install coala-bears'" }},
+     { "Coala": 
+                { "module": "coala",
+                  "category": "Linter",
+                  "source": "coala/coala-gedit",
+                  "description": "Static code analysis using Coala.
+                  "deps"        : {
+                      "pkgmgr"   : {
+                          "name": "pip3",
+                          "check":      ["pip3", "-V"],
+                          "checkPkg":   ["pip3", "show"],
+                          "installPkg": ["pip3", "install"]
+                      },
+                      "packages" : [ "coala-bears" ]
+                  }
+     }},
      { "Python Checker":       
                 { "module"      : "checkpython",
                   "category"    : "Linter",
