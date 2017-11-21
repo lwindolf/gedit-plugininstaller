@@ -40,7 +40,6 @@
      { "Focus Auto Save":   { "module": "focus-autosave",  "category": "IDE",        "source": "kassoulet/gedit-focus-autosave", "description": "Save documents when the window looses focus." }},
      { "Favorites":         { "module": "favorites",       "category": "IDE",        "source": "Quixotix/gedit-favorites", "description": "Add a feature for favorite documents." }},
      { "Reflow":            { "module": "reflow",          "category": "IDE",        "source": "guillaumechereau/gedit-reflow-plugin", "description": "Automatically format paragraphs using gedit margin width. Similar to emacs <alt>-q command." }},
-darekdeo/gedit-encoding-in-statusbar
      { "Gitedit":           
                     { "module"      : "gitedit",
                       "category"    : "IDE",
