@@ -59,6 +59,7 @@
      { "Ex-Mortis":         { "module": "ex-mortis",       "category": "IDE",        "source": "jefferyto/gedit-ex-mortis", "description": "Restores previous session.", "icon": "window-new" }},
      { "GTag Jump":         { "module": "gtagJump",        "category": "IDE",        "source": "utisam/gtagJump", "description": "Supports GTAGS, TAGS, CTAGS based source navigation." }},
      { "Accelerator Editor":{ "module": "acceleditor",     "category": "IDE",        "source": "nacho/gedit-accel-editor", "description": "Provides a configuration dialog for Gedit hot keys." }},
+     { "Smart Home":        { "module": "smart_home",      "category": "IDE",        "source": "hardpixel/gedit-smart-home", "description": "Make Home (Pos1) key jump to first char instead of column 0." }},
      { "Text Wrap Toggle":  { "module": "toggletextwrapping", "category": "IDE",     "source": "jefferyto/gedit-toggle-text-wrapping", "description": "Adds a menubar button to toggle text wrapping mode.", "icon": "gtk-ok" }},
      { "Better Python Console": { "module": "betterpythonconsole", "category": "IDE","source": "JacekPliszka/gedit-betterpythonconsole", "description": "Run your Python code using F5 in the Python console", "icon": "gnome-mime-text-x-python" }},
      { "SnapOpen":          { "module": "snapopen",        "category": "Search",     "source": "rubencaro/gedit-snapopen-plugin", "description": "Allows opening files by regex" }}, 
