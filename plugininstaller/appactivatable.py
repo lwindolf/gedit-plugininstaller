@@ -15,10 +15,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from gi.repository import GObject, Gedit, Gio
+from gi.repository import GObject, Gedit, Gio, PeasGtk
 from .pluginbrowser import PluginBrowser
 
-class AppActivatable(GObject.Object, Gedit.AppActivatable):
+class AppActivatable(GObject.Object, Gedit.AppActivatable, PeasGtk.Configurable):
     __gtype_name__ = "PluginBrowserAppActivatable"
 
     app = GObject.property(type=Gedit.App)
@@ -40,9 +40,13 @@ class AppActivatable(GObject.Object, Gedit.AppActivatable):
         self.app.remove_action("plugin-browser")
         self._menu_ext = None
         self._action = None
-        self._browser = None
+
+    def do_create_configure_widget(self):
+        return self._get_browser()
+
+    def _get_browser(self):
+        return PluginBrowser()
 
     def _run(self, action, parameter, data=None):
-        self._browser = PluginBrowser()
-        self._browser.show_all()
+        self._get_browser().show_all()
 
