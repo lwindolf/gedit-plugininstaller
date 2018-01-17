@@ -12,7 +12,7 @@
                           "name": "pip3",
                           "check":      ["pip3", "-V"],
                           "checkPkg":   ["pip3", "show"],
-                          "installPkg": ["pip3", "install"]
+                          "installPkg": ["pip3", "install", "--user"]
                       },
                       "packages" : [ "coala-bears" ]
                   }
@@ -27,7 +27,7 @@
                           "name": "pip3",
                           "check":      ["pip3", "-V"],
                           "checkPkg":   ["pip3", "show"],
-                          "installPkg": ["pip3", "install"]
+                          "installPkg": ["pip3", "install", "--user"]
                       },
                       "packages" : [ "pyflakes", "pycodestyle" ]
                   }
@@ -50,7 +50,7 @@
                               "name": "pip3",
                               "check":      ["pip3", "-V"],
                               "checkPkg":   ["pip3", "show"],
-                              "installPkg": ["pip3", "install"]
+                              "installPkg": ["pip3", "install", "--user"]
                           },
                           "packages" : [ "gitpython" ]
                       }
@@ -75,7 +75,7 @@
                               "name": "pip3",
                               "check":      ["pip3", "-V"],
                               "checkPkg":   ["pip3", "show"],
-                              "installPkg": ["pip3", "install"]
+                              "installPkg": ["pip3", "install", "--user"]
                           },
                           "packages" : [ "jedi" ]
                       }
