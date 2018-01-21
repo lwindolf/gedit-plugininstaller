@@ -2,7 +2,7 @@
 # vim: set ts=4 et sw=4 sts=4: 
 
 # Plugin browser plugin for Gedit
-# Copyright (C) 2017 Lars Windolf <lars.windolf@gmx.de>
+# Copyright (C) 2017-2018 Lars Windolf <lars.windolf@gmx.de>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@ class PluginBrowser(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="Plugin Browser")
 
-
         # FIXME: using safe XDG paths would be better
         self.target_dir = os.path.expanduser("~/.local/share/gedit/plugins/")
         self.schema_dir = os.path.expanduser("~/.local/share/glib-2.0/schemas/")
@@ -51,7 +50,8 @@ class PluginBrowser(Gtk.Window):
             try:
                 name = next(iter(ref))
                 installed = False
-                if os.path.isfile('%s%s.plugin' % (self.target_dir, ref[name]['module'])):
+                if(os.path.isfile('%s%s.plugin' % (self.target_dir, ref[name]['module'])) or
+                   os.path.isdir('%s%s' % (self.target_dir, ref[name]['module']))):
                    installed = True
                 if not 'icon' in ref[name]:
                    ref[name]['icon'] = 'libpeas-plugin'
@@ -67,6 +67,7 @@ class PluginBrowser(Gtk.Window):
         #creating the treeview, making it use the filter as a model, and adding the columns
         self.treeview = Gtk.TreeView.new_with_model(self.category_filter)
         self.treeview.connect("row-activated", self.on_row_activated)
+        self.treeview.get_selection().connect("changed", self.on_selection_changed)
         for i, column_title in enumerate(["Inst.", "Icon", "Name", "Category", "Description"]):
             if column_title == 'Inst.':
                 renderer = Gtk.CellRendererToggle()
@@ -90,13 +91,20 @@ class PluginBrowser(Gtk.Window):
         self._catcombo.add_attribute(renderer_text, "text", 0)
         self._catcombo.connect("changed", self.on_catcombo_changed)
         self._catlabel = Gtk.Label("Filter by category")
+        self._catcombo.set_active(0)
 
-        #setting up the layout, putting the treeview in a scrollwindow, and the buttons in a row
+        # Setting up the layout, putting the treeview in a scrollwindow, and the buttons in a row
         self.scrollable_treelist = Gtk.ScrolledWindow()
         self.scrollable_treelist.set_vexpand(True)
+
+        self._installButton = Gtk.Button.new_with_mnemonic("_Install")
+        self._installButton.connect("clicked", self.on_row_activated)
+        self._installButton.set_sensitive(False)
+
         self.grid.attach(self.scrollable_treelist, 0, 0, 8, 10)
         self.grid.attach_next_to(self._catlabel, self.scrollable_treelist, Gtk.PositionType.TOP, 1, 1)
         self.grid.attach_next_to(self._catcombo, self._catlabel, Gtk.PositionType.RIGHT, 2, 1)
+        self.grid.attach_next_to(self._installButton, self.scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1)
 
         self.scrollable_treelist.add(self.treeview)
 
@@ -126,7 +134,13 @@ class PluginBrowser(Gtk.Window):
             self.current_filter_category = None
         self.category_filter.refilter()
 
-    def on_row_activated(self, path, column, user_data):
+    def on_selection_changed(self, selection):
+        model, treeiter = selection.get_selected()
+        if treeiter != None:
+            print(model[treeiter][0])
+            self._installButton.set_sensitive(model[treeiter][0] == 0)
+
+    def on_row_activated(self, path=None, column=None, user_data=None):
         selection = self.treeview.get_selection()
         model, treeiter = selection.get_selected()
         if treeiter != None:
@@ -223,9 +237,12 @@ class PluginBrowser(Gtk.Window):
             self.show_message("Failed to copy plugin .py file (%s)!" % sys.exc_info()[0], True)
             return False
 
-        # Copy .plugin file
+        # Copy .plugin file if it is not inside the plugin source itself
         try:
-            shutil.copy('%s/%s.plugin' % (DIR_NAME, plugin_info['module']), self.target_dir)
+            # Do not copy .plugin file if it is inside plugin source
+            src_file = '%s/%s/%s.plugin' % (DIR_NAME, plugin_info['module'], plugin_info['module'])
+            if not os.path.isfile(src_file):
+                shutil.copy('%s/%s.plugin' % (DIR_NAME, plugin_info['module']), self.target_dir)
         except:
             self.show_message("Failed to copy .plugin file (%s)!" % sys.exc_info()[0], True)
             return False
