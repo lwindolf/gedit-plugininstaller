@@ -35,6 +35,30 @@
      { "PHPLint":              { "module": "phplint",         "category": "Linter",     "source": "lwindolf/gedit-phplint", "description": "Check PHP syntax using 'php -l'", "icon": "emblem-default" }},
      { "Indentation Settings": { "module": "indentation_settings", "category": "IDE",   "source": "sergejx/gedit-indentation-settings", "description": "Configure default indentations per language" }},
      { "Control Your Tabs":    { "module": "controlyourtabs", "category": "IDE",        "source": "jefferyto/gedit-control-your-tabs", "description": "switch between document tabs using Ctrl+Tab / Ctrl+Shift+Tab (most recently used order or tabbar order) and Ctrl+PageUp / Ctrl+PageDown (tabbar order)" }},
+     {
+       "Auto Tab": {
+         "module": "autotab",
+         "category": "IDE",
+         "source": "kapouer/gedit-autotab",
+         "description": "Automatically detect tab preferences for source files."
+       }
+     },
+     {
+       "Trailsave": {
+         "module": "trailsave",
+         "category": "IDE",
+         "source": "jonleighton/gedit-trailsave",
+         "description": "Strip trailing whitespace on save"
+       }
+     },
+     {
+       "Pair Character Completion": {
+         "module": "pair_char_completion",
+         "category": "IDE",
+         "source": "illhoon/gedit-pair-char-autocomplete",
+         "description": "Automatically insert closing quotes and parenthesis"
+       }
+     },
      { "Macropy":              { "module": "macropy",         "category": "IDE",        "source": "eguaio/gedit-macropy", "description": "Allows you to record and execute macros." }},
      { "Whitespace Remover":   { "module": "whitespace_remover", "category": "IDE",    "source": "dinkel/gedit-whitespace-remover", "description": "Drops unnecessary whitespaces on file saving.", "icon": "edit-clear" }},
      { "Focus Auto Save":   { "module": "focus-autosave",  "category": "IDE",        "source": "kassoulet/gedit-focus-autosave", "description": "Save documents when the window looses focus." }},
