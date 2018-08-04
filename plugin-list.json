@@ -55,7 +55,7 @@
        "Pair Character Completion": {
          "module": "pair_char_completion",
          "category": "IDE",
-         "source": "illhoon/gedit-pair-char-autocomplete",
+         "source": "amitkeret/gedit-pair-char-autocomplete",
          "description": "Automatically insert closing quotes and parenthesis"
        }
      },
