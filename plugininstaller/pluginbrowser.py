@@ -23,14 +23,14 @@ import gi
 
 gi.require_version('Gtk', '3.0')
 
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, PeasGtk
 
 class PluginBrowser(Gtk.Window):
 
     SCHEMA_ID = "org.gnome.gedit.plugins"
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="Plugin Browser")
+        Gtk.Window.__init__(self, title="Plugin Installer")
 
         # FIXME: using safe XDG paths would be better
         self.target_dir = os.path.expanduser("~/.local/share/gedit/plugins/")
@@ -39,10 +39,15 @@ class PluginBrowser(Gtk.Window):
         self.set_border_width(10)
         self.set_default_size(600,300)
 
-        self.grid = Gtk.Grid()
-        self.grid.set_column_homogeneous(True)
-        self.grid.set_row_homogeneous(True)
-        self.add(self.grid)
+        self._grid = Gtk.Grid()
+        self._grid.set_column_homogeneous(True)
+        self._grid.set_row_homogeneous(True)
+
+        self._notebook = Gtk.Notebook()
+        self._notebook.append_page(PeasGtk.PluginManager(None), Gtk.Label("Activate Plugins"))
+        self._notebook.append_page(self._grid, Gtk.Label("Download Plugins"))
+
+        self.add(self._notebook)
 
         self._liststore = Gtk.ListStore(bool, str, str, str, str)
         self._plugin_list = self.fetch_list()
@@ -56,7 +61,7 @@ class PluginBrowser(Gtk.Window):
                 if not 'icon' in ref[name]:
                    ref[name]['icon'] = 'libpeas-plugin'
 
-                self._liststore.append((installed, ref[name]['icon'], name, ref[name]['category'], ref[name]['description']))
+                self._liststore.append((installed, ref[name]['icon'], name, ref[name]['category'], ('<b>%s</b>\n%s') % (name, ref[name]['description'])))
             except:
                 print("Bad fields for plugin entry %s" % name)
 
@@ -64,10 +69,10 @@ class PluginBrowser(Gtk.Window):
         self.category_filter = self._liststore.filter_new()
         self.category_filter.set_visible_func(self.category_filter_func)
 
-        #creating the treeview, making it use the filter as a model, and adding the columns
+        # creating the treeview, making it use the filter as a model, and adding the columns
         self.treeview = Gtk.TreeView.new_with_model(self.category_filter)
         self.treeview.get_selection().connect("changed", self.on_selection_changed)
-        for i, column_title in enumerate(["Inst.", "Icon", "Name", "Category", "Description"]):
+        for i, column_title in enumerate(["Inst.", "Icon", "Description"]):
             if column_title == 'Inst.':
                 renderer = Gtk.CellRendererToggle()
                 column = Gtk.TreeViewColumn(column_title, renderer, active=i)
@@ -76,7 +81,7 @@ class PluginBrowser(Gtk.Window):
                 column = Gtk.TreeViewColumn(column_title, renderer, icon_name=i)
             else:
                 renderer = Gtk.CellRendererText()
-                column = Gtk.TreeViewColumn(column_title, renderer, text=i)
+                column = Gtk.TreeViewColumn(column_title, renderer, markup=4)
             self.treeview.append_column(column)
             column.set_sort_column_id(i)
 
@@ -104,12 +109,11 @@ class PluginBrowser(Gtk.Window):
         self._uninstallButton.connect("clicked", self.uninstall)
         self._uninstallButton.set_sensitive(False)
 
-
-        self.grid.attach(self.scrollable_treelist, 0, 0, 8, 10)
-        self.grid.attach_next_to(self._catlabel, self.scrollable_treelist, Gtk.PositionType.TOP, 1, 1)
-        self.grid.attach_next_to(self._catcombo, self._catlabel, Gtk.PositionType.RIGHT, 2, 1)
-        self.grid.attach_next_to(self._installButton, self.scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1)
-        self.grid.attach_next_to(self._uninstallButton, self._installButton, Gtk.PositionType.RIGHT, 1, 1)
+        self._grid.attach(self.scrollable_treelist, 0, 0, 8, 10)
+        self._grid.attach_next_to(self._catlabel, self.scrollable_treelist, Gtk.PositionType.TOP, 1, 1)
+        self._grid.attach_next_to(self._catcombo, self._catlabel, Gtk.PositionType.RIGHT, 2, 1)
+        self._grid.attach_next_to(self._installButton, self.scrollable_treelist, Gtk.PositionType.BOTTOM, 1, 1)
+        self._grid.attach_next_to(self._uninstallButton, self._installButton, Gtk.PositionType.RIGHT, 1, 1)
 
         self.scrollable_treelist.add(self.treeview)
 
@@ -182,7 +186,7 @@ class PluginBrowser(Gtk.Window):
         response = Gtk.Dialog.run(dialog)
         Gtk.Widget.destroy(dialog)
         return response
- 
+
     def install_plugin(self, plugin_info):
         """Fetches github repo for a plugin and tries to install the plugin"""
         DIR_NAME = "/tmp/gedit-pluginbrowser-%s" % plugin_info['module']
@@ -288,7 +292,7 @@ class PluginBrowser(Gtk.Window):
 	        	# FIXME: error checking
         except:
             self.show_message("Failed to install schema files (%s)!" % sys.exc_info()[0], True)
-            return False 
+            return False
 
         # Enable plugin (for next restart)
         try:
@@ -298,7 +302,7 @@ class PluginBrowser(Gtk.Window):
             settings.set_strv('active-plugins', current_plugins)
         except:
             self.show_message("Failed to enable plugin (%s)!" % sys.exc_info()[0], True)
-            return False 
+            return False
 
         # Cleanup
         shutil.rmtree(DIR_NAME)
@@ -359,4 +363,3 @@ class PluginBrowser(Gtk.Window):
             self.show_message("Sorry! Plugin removal failed!.", True)
         else:
             self.show_message("Plugin was removed. Please restart Gedit once for it to take full effect!.", False)
-
