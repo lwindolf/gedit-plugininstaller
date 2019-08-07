@@ -117,7 +117,7 @@
                        "source"      : "maoschanz/gedit-plugin-open-as-root",
                        "description" : "Add menu item to open files as root."
      }},
-     {{ "Multi Cursor":
+     { "Multi Cursor":
                      { "module"      : "multicursor",
                        "category"    : "IDE",
                        "source"      : "jessecrossen/Gedit-MultiCursor",
