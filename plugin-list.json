@@ -116,6 +116,12 @@
                        "category"    : "IDE",
                        "source"      : "maoschanz/gedit-plugin-open-as-root",
                        "description" : "Add menu item to open files as root."
+     }},
+     {{ "Multi Cursor":
+                     { "module"      : "multicursor",
+                       "category"    : "IDE",
+                       "source"      : "jessecrossen/Gedit-MultiCursor",
+                       "description" : "Sublime like multi cursor editing. Use Ctrl-D to add cursor, Ctrl-U to delete last cursor."
      }}
   ]
 }
