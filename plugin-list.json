@@ -110,6 +110,12 @@
                        "category"    : "Completion",
                        "source"      : "isamert/gracer",
                        "description" : "Python auto completion with racer. Requires 'cargo install racer'."
+     }},
+     { "Open as root":
+                     { "module"      : "open_as_root",
+                       "category"    : "IDE",
+                       "source"      : "maoschanz/gedit-plugin-open-as-root",
+                       "description" : "Add menu item to open files as root."
      }}
   ]
 }
