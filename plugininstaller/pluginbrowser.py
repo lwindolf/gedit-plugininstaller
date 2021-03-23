@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# vim: set ts=4 et sw=4 sts=4: 
+# vim: set ts=4 et sw=4 sts=4:
 
 # Plugin browser plugin for Gedit
-# Copyright (C) 2017-2018 Lars Windolf <lars.windolf@gmx.de>
+# Copyright (C) 2017-2021 Lars Windolf <lars.windolf@gmx.de>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -237,9 +237,13 @@ class PluginBrowser(Gtk.Window):
                 return False
 
         # Git checkout
-        p = subprocess.Popen(["git", "clone", "https://github.com/%s" % plugin_info['source'], "."])
-        p.wait()
-        # FIXME: error checking
+        try:
+            p = subprocess.Popen(["git", "clone", "https://github.com/%s" % plugin_info['source'], "."])
+            p.wait()
+            # FIXME: error checking
+        except FileNotFoundError:
+            self.show_message(_("Command \"git\" not found, please install it!"), True)
+            return False
 
         # Now copy the plugin source, there are 2 variants:
         # - either there is a subdir named after the module   <module>/
