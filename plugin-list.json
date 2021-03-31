@@ -1,7 +1,7 @@
 { "schemaVersion": 1,
   "plugins":[
      { "jshint":               { "module": "jshint",          "category": "Linter",     "source": "Meseira/gedit-jshint", "description": "Javascript linting with JSHint", "icon": "emblem-default" }},
-     { "ShellCheck":           { "module": "shellcheck",      "category": "Linter",     "source": "elbosso/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck", "icon": "emblem-default" }},
+     { "ShellCheck":           { "module": "shellcheck",      "category": "Linter",     "source": "lwindolf/gedit-shellcheck", "description": "Bash/Shell linting with ShellCheck", "icon": "emblem-default" }},
      { "Coala": 
                 { "module"      : "coala",
                   "category"    : "Linter",
