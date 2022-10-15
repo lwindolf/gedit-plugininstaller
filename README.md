@@ -2,7 +2,7 @@
 
 Easy to use plugin installer for GNOME Gedit. Supports installing plugins and their dependencies from a curated list of plugins. For now it supports only plugins hosted on github.
 
-Tested to work with Gedit 3.14 - 3.38
+Tested to work with Gedit 3.14 - 41.0
 
 Might work with newer version too!
 
