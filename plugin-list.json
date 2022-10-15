@@ -62,7 +62,6 @@
      { "Macropy":              { "module": "macropy",         "category": "IDE",        "source": "eguaio/gedit-macropy", "description": "Allows you to record and execute macros." }},
      { "Whitespace Remover":   { "module": "whitespace_remover", "category": "IDE",    "source": "dinkel/gedit-whitespace-remover", "description": "Drops unnecessary whitespaces on file saving.", "icon": "edit-clear" }},
      { "Focus Auto Save":   { "module": "focus-autosave",  "category": "IDE",        "source": "kassoulet/gedit-focus-autosave", "description": "Save documents when the window looses focus." }},
-     { "Favorites":         { "module": "favorites",       "category": "IDE",        "source": "Quixotix/gedit-favorites", "description": "Add a feature for favorite documents." }},
      { "Reflow":            { "module": "reflow",          "category": "IDE",        "source": "guillaumechereau/gedit-reflow-plugin", "description": "Automatically format paragraphs using gedit margin width. Similar to emacs <alt>-q command." }},
      { "Gitedit":           
                     { "module"      : "gitedit",
