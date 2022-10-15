@@ -12,13 +12,21 @@ Plugins are installed using "git clone" and then installed into ~/.local/share/g
 
 ## Installation
 
-Sadly the installer cannot install itself :-)
+### Linux
+
+You need to copy the plugin like this
 
     git clone https://github.com/lwindolf/gedit-plugininstaller.git
     mkdir -p ~/.local/share/gedit/plugins/
     cp -r gedit-plugininstaller/plugininstaller.plugin gedit-plugininstaller/plugininstaller/ ~/.local/share/gedit/plugins/
 
 Finally start Gedit and enable the plugin installer under Preferences / Plugins.
+
+### Windows
+
+The plugin is [known](https://github.com/lwindolf/gedit-plugininstaller/issues/5) to work with MSYS2 installed Gedit. For this installation type download all files into your MSYS installation directory, e.g.
+
+    C:\msys64\mingw64\lib\gedit\plugins
 
 ## Adding Plugins
 
